@@ -77,8 +77,10 @@ while True:
                 text = text[:(wanted_letter - typed_letter)]
             print(text)
             print("输入第{}行".format(line_count))
-            driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text + ' ')
+            driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text)
             typed_letter += len(text)
+            if typed_letter < wanted_letter:
+                driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(' ')
             line_count = line_count + 1
         else:
             time.sleep(1)
