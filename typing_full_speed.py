@@ -18,8 +18,9 @@ MAIN_URL = 'https://dazi.kukuw.com/'
 
 
 
-
-driver = webdriver.Chrome()
+options = Options()
+options.add_argument("--log-level=3")
+driver = webdriver.Chrome(options=options)
 print("打开主页面，等待加载完成")
 driver.get(MAIN_URL)
 

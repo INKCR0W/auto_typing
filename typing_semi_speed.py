@@ -2,6 +2,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from threading import Thread
 import re
 import time
@@ -20,14 +21,15 @@ MAIN_URL = 'https://dazi.kukuw.com/'
 speed = int(input("请输入设定的打字速度"))
 input_time = int(input("请输入设定的打字时间"))
 
-wanted_letter = speed * input_time + 1
+wanted_letter = speed * input_time
 
 if input_time > 50 or input_time < 1:
     print("非法的打字时间（范围为1~50）")
     exit()
 
-
-driver = webdriver.Chrome()
+options = Options()
+options.add_argument("--log-level=3")
+driver = webdriver.Chrome(options=options)
 print("打开主页面，等待加载完成")
 driver.get(MAIN_URL)
 
@@ -77,12 +79,13 @@ while True:
             print(text)
             driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text)
             typed_letter += len(text)
-            line_count = line_count + 1
 
             if typed_letter == wanted_letter:
                 print("输入完成，接下来等待时间结束")
             else:
                 driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(' ')
+
+            line_count = line_count + 1
         else:
             time.sleep(1)
 
@@ -99,3 +102,4 @@ while True:
 
 
 user_input = input("输入任意字符退出")
+driver.quit()
