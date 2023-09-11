@@ -20,7 +20,7 @@ MAIN_URL = 'https://dazi.kukuw.com/'
 speed = int(input("请输入设定的打字速度"))
 input_time = int(input("请输入设定的打字时间"))
 
-wanted_letter = speed * input_time
+wanted_letter = speed * input_time + 1
 
 if input_time > 50 or input_time < 1:
     print("非法的打字时间（范围为1~50）")
@@ -71,17 +71,18 @@ typed_letter = 0
 while True:
     try:
         if typed_letter != wanted_letter:
-            print("读取第{}行:".format(line_count))
             text = driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/div/span'.format(line_count)).text
             if len(text) > (wanted_letter - typed_letter):
                 text = text[:(wanted_letter - typed_letter)]
             print(text)
-            print("输入第{}行".format(line_count))
             driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text)
             typed_letter += len(text)
-            if typed_letter < wanted_letter:
-                driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(' ')
             line_count = line_count + 1
+
+            if typed_letter == wanted_letter:
+                print("输入完成，接下来等待时间结束")
+            else:
+                driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(' ')
         else:
             time.sleep(1)
 
@@ -94,8 +95,6 @@ while True:
         if not re.search('typing.html', driver.current_url):
             print("未知情况，可能是打字结束了，错误:", e)
             break
-        else:
-            print("打字继续")
 
 
 

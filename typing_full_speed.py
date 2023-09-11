@@ -50,10 +50,8 @@ line_count = 1
 
 while True:
     try:
-        print("读取第{}行:".format(line_count))
         text = driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/div/span'.format(line_count)).text
         print(text)
-        print("输入第{}行".format(line_count))
         driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text + ' ')
         line_count = line_count + 1
 
@@ -66,8 +64,6 @@ while True:
         if not re.search('typing.html', driver.current_url):
             print("未知情况，可能是打字结束了")
             break
-        else:
-            print("打字继续")
 
 
 
