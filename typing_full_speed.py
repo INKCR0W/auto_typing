@@ -46,16 +46,12 @@ while True:
 
 
 line_count = 1
-finded_text = False
-finded_button = False
+
 
 while True:
     try:
-        finded_text = False
-        finded_button = False
         print("读取第{}行:".format(line_count))
         text = driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/div/span'.format(line_count)).text
-        finded_text = True
         print(text)
         print("输入第{}行".format(line_count))
         driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text + ' ')
