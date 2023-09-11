@@ -10,4 +10,4 @@
 下载[ChromeDriver](http://chromedriver.storage.googleapis.com/index.html)<br>
 
 执行代码<br>
-```python typing_xxxx_speed.py //自行选择执行的文件```<br>
+```python typing_xxxx_speed.py #自行选择执行的文件```<br>
