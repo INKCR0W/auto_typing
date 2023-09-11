@@ -72,32 +72,39 @@ typed_letter = 0
 
 while True:
     try:
-        if typed_letter != wanted_letter:
-            text = driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/div/span'.format(line_count)).text
-            if len(text) > (wanted_letter - typed_letter):
-                text = text[:(wanted_letter - typed_letter)]
-            print(text)
-            driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text)
-            typed_letter += len(text)
-
-            if typed_letter == wanted_letter:
-                print("输入完成，接下来等待时间结束")
-            else:
-                driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(' ')
-
-            line_count = line_count + 1
-        else:
-            time.sleep(1)
-
         continue_button = driver.find_element("xpath", '//*[@id="box_button_a"]')
         print("打字结束，KPM: {}".format(driver.find_element("xpath", '/html/body/div[2]/div[5]/div/div[2]/strong[2]').text))
         continue_button.click()
         break
 
+
+
     except Exception as e:
         if not re.search('typing.html', driver.current_url):
             print("未知情况，可能是打字结束了，错误:", e)
             break
+        
+        try:
+            if typed_letter != wanted_letter:
+                text = driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/div/span'.format(line_count)).text
+                if len(text) > (wanted_letter - typed_letter):
+                    text = text[:(wanted_letter - typed_letter)]
+                print(text)
+                driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(text)
+                typed_letter += len(text)
+
+                if typed_letter == wanted_letter:
+                    print("输入完成，接下来等待时间结束")
+                else:
+                    driver.find_element("xpath", '/html/body/div[2]/form/div[3]/div[{}]/input[2]'.format(line_count)).send_keys(' ')
+
+                line_count = line_count + 1
+            else:
+                time.sleep(1)
+        except:
+            if not re.search('typing.html', driver.current_url):
+                print("未知情况，可能是打字结束了，错误:", e)
+                break
 
 
 
